@@ -89,30 +89,34 @@ export default class MyDonationScreen extends Component {
 
    renderItem = ( {item, i} ) =>(
      <ListItem
-       key={i}
-       title={item.book_name}
-       subtitle={"Requested By : " + item.requested_by +"\nStatus : " + item.request_status}
-       leftElement={<Icon name="book" type="font-awesome" color ='#696969'/>}
-       titleStyle={{ color: 'black', fontWeight: 'bold' }}
-       rightElement={
-           <TouchableOpacity
+       key={i} bottomDivider>
+         <ListItem.Content>
+            <ListItem.Title style={{ color: 'black', fontWeight: 'bold' }}>{item.book_name}</ListItem.Title>
+            <ListItem.Subtitle>{"Requested By : " + item.requested_by +"\nStatus : " + item.request_status}</ListItem.Subtitle>
+            <Icon name="book" type="font-awesome" color ='#696969'/>
+            
+            
+            <TouchableOpacity
             style={[
               styles.button,
               {
                 backgroundColor : item.request_status === "Book Sent" ? "green" : "#ff5722"
+              },
+              {
+                alignSelf: 'flex-end'
               }
             ]}
             onPress = {()=>{
               this.sendBook(item)
             }}
-           >
-             <Text style={{color:'#ffff'}}>{
-               item.request_status === "Book Sent" ? "Book Sent" : "Send Book"
-             }</Text>
-           </TouchableOpacity>
-         }
-       bottomDivider
-     />
+            >
+            <Text style={{color:'#ffff'}}>{
+              item.request_status === "Book Sent" ? "Book Sent" : "Send Book"
+            }</Text>
+          </TouchableOpacity>
+         
+        </ListItem.Content>
+       </ListItem>
    )
 
 

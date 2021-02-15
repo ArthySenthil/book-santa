@@ -1,3 +1,4 @@
+
 import React ,{Component} from 'react';
 import {View,Text,StyleSheet,TouchableOpacity} from 'react-native';
 import{Card,Header,Icon} from 'react-native-elements';
@@ -9,16 +10,16 @@ export default class RecieverDetailsScreen extends Component{
   constructor(props){
     super(props);
     this.state={
-      userId          : firebase.auth().currentUser.email,
-      userName        : "",
-      recieverId      : this.props.navigation.getParam('details')["user_id"],
-      requestId       : this.props.navigation.getParam('details')["request_id"],
-      bookName        : this.props.navigation.getParam('details')["book_name"],
+      userId                    : firebase.auth().currentUser.email,
+      userName                  : "",
+      recieverId                : this.props.navigation.getParam('details')["user_id"],
+      requestId                 : this.props.navigation.getParam('details')["request_id"],
+      bookName                  : this.props.navigation.getParam('details')["book_name"],
       reason_for_requesting     : this.props.navigation.getParam('details')["reason_to_request"],
-      recieverName    : '',
-      recieverContact : '',
-      recieverAddress : '',
-      recieverRequestDocId : ''
+      recieverName              : '',
+      recieverContact           : '',
+      recieverAddress           : '',
+      recieverRequestDocId      : ''
     }
   }
 
@@ -47,7 +48,9 @@ export default class RecieverDetailsScreen extends Component{
   getUserDetails=(userId)=>{
     db.collection("users").where('email_id','==', userId).get()
     .then((snapshot)=>{
+      
       snapshot.forEach((doc) => {
+        console.log(doc.data().first_name)
         this.setState({
           userName  :doc.data().first_name + " " + doc.data().last_name
         })
@@ -98,10 +101,10 @@ export default class RecieverDetailsScreen extends Component{
             />
           </View>
           <View style={{flex:0.3}}>
-            <Card
-                title={"Book Information"}
-                titleStyle= {{fontSize : 20}}
-              >
+            <Card>
+                <Card.Title style= {{fontSize : 20}}> {"Book Information"}</Card.Title>
+                
+              
               <Card >
                 <Text style={{fontWeight:'bold'}}>Name : {this.state.bookName}</Text>
               </Card>
@@ -111,10 +114,9 @@ export default class RecieverDetailsScreen extends Component{
             </Card>
           </View>
           <View style={{flex:0.3}}>
-            <Card
-              title={"Reciever Information"}
-              titleStyle= {{fontSize : 20}}
-              >
+            <Card>
+              <Card.Title style= {{fontSize : 20}}> {"Receiver Information"}</Card.Title>
+              
               <Card>
                 <Text style={{fontWeight:'bold'}}>Name: {this.state.recieverName}</Text>
               </Card>

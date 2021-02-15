@@ -5,30 +5,30 @@ import firebase from 'firebase';
 import db from '../config'
 import MyHeader from '../components/MyHeader';
 
-export default class BookDonateScreen extends Component{
+export default class MyReceivedBooksScreen extends Component{
   constructor(){
     super()
     this.state = {
       userId  : firebase.auth().currentUser.email,
-      requestedBooksList : []
+      receivedBooksList : []
     }
   this.requestRef= null
   }
 
-  getRequestedBooksList =()=>{
+  getReceivedBooksList =()=>{
     this.requestRef = db.collection("requested_books")
+    .where('user_id','==',this.state.userId)
+    .where("book_status", '==','received')
     .onSnapshot((snapshot)=>{
-      var requestedBooksList = snapshot.docs.map((doc) => doc.data())
-      console.log(requestedBooksList);
+      var receivedBooksList = snapshot.docs.map((doc) => doc.data())
       this.setState({
-        requestedBooksList : requestedBooksList
+        receivedBooksList : receivedBooksList
       });
     })
   }
 
   componentDidMount(){
-    this.getRequestedBooksList()
-    // console.log(getRequestedBooksList);
+    this.getReceivedBooksList()
   }
 
   componentWillUnmount(){
@@ -38,52 +38,46 @@ export default class BookDonateScreen extends Component{
   keyExtractor = (item, index) => index.toString()
 
   renderItem = ( {item, i} ) =>{
+    console.log(item.book_name);
     return (
+      // <ListItem
+      //   key={i}
+      //   title={item.book_name}
+      //   subtitle={item.bookStatus}
+      //   titleStyle={{ color: 'black', fontWeight: 'bold' }}
+      //   bottomDivider
+      // />
       <ListItem key={i} bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title style={{ color: 'black', fontWeight: 'bold' }}>{item.book_name}</ListItem.Title>
+      <ListItem.Content>
+        <ListItem.Title style={{ color: 'black', fontWeight: 'bold' }}>{item.book_name}</ListItem.Title>
 
-            <ListItem.Subtitle>{item.reason_to_request}</ListItem.Subtitle>
-        {/* titleStyle={{ color: 'black', fontWeight: 'bold' }} */}
-        {/* rightElement={ */}
-       
-            <TouchableOpacity style={styles.button}
-              onPress ={()=>{
-                this.props.navigation.navigate("RecieverDetails",{"details": item})
-              }}
-              >
-              <Text style={{color:'#ffff'}}>View</Text>
-            </TouchableOpacity>
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-          
-    
+        <ListItem.Subtitle>{item.book_status}</ListItem.Subtitle>
+   
+      </ListItem.Content>
+     
+    </ListItem>
     )
   }
 
   render(){
-    console.log(this.props.navigation)
     return(
       <View style={{flex:1}}>
-        <MyHeader title="Donate Books" navigation ={this.props.navigation}/>
+        <MyHeader title="Received Books" navigation ={this.props.navigation}/>
         <View style={{flex:1}}>
           {
-            this.state.requestedBooksList.length === 0
+            this.state.receivedBooksList.length === 0
             ?(
               <View style={styles.subContainer}>
-                <Text style={{ fontSize: 20}}>List Of All Requested Books</Text>
+                <Text style={{ fontSize: 20}}>List Of All Received Books</Text>
               </View>
             )
             :(
               <FlatList
                 keyExtractor={this.keyExtractor}
-                data={this.state.requestedBooksList}
+                data={this.state.receivedBooksList}
                 renderItem={this.renderItem}
               />
-              
             )
-            
           }
         </View>
       </View>
@@ -103,7 +97,6 @@ const styles = StyleSheet.create({
     height:30,
     justifyContent:'center',
     alignItems:'center',
-    alignSelf: 'flex-end',
     backgroundColor:"#ff5722",
     shadowColor: "#000",
     shadowOffset: {

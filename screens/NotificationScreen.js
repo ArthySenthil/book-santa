@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, FlatList,Text } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import firebase from 'firebase';
+import SwipeableFlatlist from "../components/SwipeableFlatlist";
 import MyHeader from '../components/MyHeader';
 
 import db from '../config';
@@ -19,7 +20,7 @@ export default class NotificationScreen extends Component{
   }
 
   getNotifications=()=>{
-    this.requestRef = db.collection("all_notifications")
+    this.notificationRef = db.collection("all_notifications")
     .where("notification_status", "==", "unread")
     .where("targeted_user_id",'==',this.state.userId)
     .onSnapshot((snapshot)=>{
@@ -48,13 +49,15 @@ export default class NotificationScreen extends Component{
   renderItem = ({item,index}) =>{
       return (
         <ListItem
-          key={index}
-          leftElement={<Icon name="book" type="font-awesome" color ='#696969'/>}
-          title={item.book_name}
-          titleStyle={{ color: 'black', fontWeight: 'bold' }}
-          subtitle={item.message}
-          bottomDivider
-        />
+          key={index} bottomDivider>
+             <ListItem.Content>
+              <Icon name="book" type="font-awesome" color ='#696969'/>
+              <ListItem.Title style={{ color: 'black', fontWeight: 'bold' }}>{item.book_name}</ListItem.Title>
+          
+              <ListItem.Subtitle>{item.message}</ListItem.Subtitle>
+          
+            </ListItem.Content>
+          </ListItem>
       )
  }
 
@@ -74,11 +77,12 @@ export default class NotificationScreen extends Component{
               </View>
             )
             :(
-              <FlatList
-                keyExtractor={this.keyExtractor}
-                data={this.state.allNotifications}
-                renderItem={this.renderItem}
-              />
+              // <FlatList
+              //   keyExtractor={this.keyExtractor}
+              //   data={this.state.allNotifications}
+              //   renderItem={this.renderItem}
+              // />
+              <SwipeableFlatlist allNotifications={this.state.allNotifications}/>
             )
           }
         </View>
