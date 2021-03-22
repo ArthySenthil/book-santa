@@ -26,16 +26,18 @@ export default class RecieverDetailsScreen extends Component{
 
 
   getRecieverDetails(){
-    db.collection('users').where('email_id','==',this.state.recieverId).get()
-    .then(snapshot=>{
+    console.log("Receiver ID: " + this.state.recieverId)
+    db.collection('users').where('email_id','==',this.state.recieverId).get().then(snapshot=>{
       snapshot.forEach(doc=>{
         this.setState({
           recieverName    : doc.data().first_name,
           recieverContact : doc.data().contact,
           recieverAddress : doc.data().address,
         })
+        console.log("Reciever: "+ this.state.recieverName)
       })
     });
+
 
     db.collection('requested_books').where('request_id','==',this.state.requestId).get()
     .then(snapshot=>{
@@ -50,10 +52,12 @@ export default class RecieverDetailsScreen extends Component{
     .then((snapshot)=>{
       
       snapshot.forEach((doc) => {
-        console.log(doc.data().first_name)
+
+       
         this.setState({
           userName  :doc.data().first_name + " " + doc.data().last_name
         })
+        console.log(this.state.userName)
       })
     })
   }
@@ -86,6 +90,9 @@ export default class RecieverDetailsScreen extends Component{
 
   componentDidMount(){
     this.getRecieverDetails()
+
+    console.log("reciever details "+this.getRecieverDetails())
+    console.log(this.state.userId);
     this.getUserDetails(this.state.userId)
   }
 

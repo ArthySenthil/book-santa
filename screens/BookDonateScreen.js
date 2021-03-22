@@ -63,7 +63,7 @@ export default class BookDonateScreen extends Component{
   }
 
   render(){
-    console.log(this.props.navigation)
+
     return(
       <View style={{flex:1}}>
         <MyHeader title="Donate Books" navigation ={this.props.navigation}/>
