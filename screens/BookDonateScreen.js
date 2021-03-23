@@ -49,7 +49,7 @@ export default class BookDonateScreen extends Component{
        
             <TouchableOpacity style={styles.button}
               onPress ={()=>{
-                this.props.navigation.navigate("RecieverDetails",{"details": item})
+                this.props.navigation.navigate("receiverDetails",{"details": item})
               }}
               >
               <Text style={{color:'#ffff'}}>View</Text>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     alignSelf: 'flex-end',
-    backgroundColor:"#ff5722",
+    backgroundColor:"#fd82b4",
     shadowColor: "#000",
     shadowOffset: {
        width: 0,

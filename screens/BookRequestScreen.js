@@ -44,7 +44,7 @@ export default class BookRequestScreen extends Component{
   addRequest = async (bookName,reasonToRequest)=>{
     var userId = this.state.userId
     var randomRequestId = this.createUniqueId()
-    var books = await BookSearch.searchbook(bookName,'AIzaSyDOCWaAohxf7l4TfGI4fOMLYFYIzlwy5ks')
+    var books = await BookSearch.searchbook(bookName,'Google Books API')
     console.log("here in add request");
     db.collection('requested_books').add({
         "user_id": userId,
@@ -79,14 +79,14 @@ export default class BookRequestScreen extends Component{
 
   }
 
-receivedBooks=(bookName)=>{
+recievedBooks=(bookName)=>{
   var userId = this.state.userId
   var requestId = this.state.requestId
-  db.collection('received_books').add({
+  db.collection('recieved_books').add({
       "user_id": userId,
       "book_name":bookName,
       "request_id"  : requestId,
-      "bookStatus"  : "received",
+      "bookStatus"  : "recieved",
 
   })
 }
@@ -123,7 +123,7 @@ var bookRequest=  db.collection('requested_books')
   .get()
   .then((snapshot)=>{
     snapshot.forEach((doc)=>{
-      if(doc.data().book_status !== "received"){
+      if(doc.data().book_status !== "recieved"){
         this.setState({
           requestId : doc.data().request_id,
           requestedBookName: doc.data().book_name,
@@ -175,7 +175,7 @@ updateBookRequestStatus=()=>{
   //updating the book status after receiving the book
   db.collection('requested_books').doc(this.state.docId)
   .update({
-    book_status : 'received'
+    book_status : 'recieved'
   })
 
   //getting the  doc id to update the users doc
@@ -273,7 +273,7 @@ async getBooksFromApi (bookName){
           onPress={()=>{
             this.sendNotification()
             this.updateBookRequestStatus();
-            this.receivedBooks(this.state.requestedBookName)
+            this.recievedBooks(this.state.requestedBookName)
           }}>
           <Text>I recieved the book </Text>
           </TouchableOpacity>
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     borderRadius:10,
-    backgroundColor:"#ff5722",
+    backgroundColor:"#fd82b4",
     shadowColor: "#000",
     shadowOffset: {
        width: 0,

@@ -240,7 +240,7 @@ export default class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8BE85",
+    backgroundColor: "#ffccff",
     alignItems: "center",
     justifyContent: "center"
   },
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 65,
     fontWeight: "300",
     paddingBottom: 30,
-    color: "#ff3d00"
+    color: "#ff0066"
   },
   loginBox: {
     width: 300,
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 25,
-    backgroundColor: "#ff9800",
+    backgroundColor: "#FF9999",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   buttonText: {
-    color: "#ffff",
+    color: "#ff0066",
     fontWeight: "200",
     fontSize: 20
   }

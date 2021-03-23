@@ -14,6 +14,8 @@ import * as Permissions from "expo-permissions";
 import firebase from "firebase";
 import db from "../config";
 import axios from "axios";
+import { Icon } from "react-native-elements";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class CustomSideBarMenu extends Component {
   state = {
@@ -92,9 +94,9 @@ export default class CustomSideBarMenu extends Component {
         <View
           style={{
             flex: 0.5,
-
+            justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "orange",
+            backgroundColor: "#fd82b4",
           }}
         >
           <Avatar
@@ -102,13 +104,13 @@ export default class CustomSideBarMenu extends Component {
             source={{
               uri: this.state.image,
             }}
-            size="medium"
+            size="xlarge"
             onPress={() => this.selectPicture()}
-            containerStyle={styles.imageContainer}
+            // containerStyle={styles.imageContainer}
             showEditButton
           />
 
-          <Text style={{ fontWeight: "100", fontSize: 20, paddingTop: 10 }}>
+          <Text style={{ fontWeight: "100", fontSize: RFValue(20),color: "#fff", padding: RFValue(10) }}>
             {this.state.name}
           </Text>
         </View>
@@ -124,7 +126,21 @@ export default class CustomSideBarMenu extends Component {
               firebase.auth().signOut();
             }}
           >
-            <Text>Log Out</Text>
+            <Icon
+              name="logout"
+              type="antdesign"
+              size={RFValue(15)}
+              iconStyle={{ paddingLeft: RFValue(5) }}
+            />
+             <Text
+              style={{
+                fontSize: RFValue(15),
+                fontWeight: "bold",
+                marginLeft: RFValue(30),
+              }}
+            >
+              Log Out
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -145,10 +161,10 @@ var styles = StyleSheet.create({
     paddingBottom: 30,
   },
   logOutButton: {
-    height: 30,
+    height: 20,
     width: "100%",
     justifyContent: "center",
-    padding: 10,
+   
   },
   imageContainer: {
     flex: 0.75,

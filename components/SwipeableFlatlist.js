@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     width: 100
   },
   backRightBtnRight: {
-    backgroundColor: "#29b6f6",
+    backgroundColor: "#ff9933",
     right: 0
   }
 });

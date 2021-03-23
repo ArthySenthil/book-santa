@@ -6,35 +6,35 @@ import firebase from 'firebase';
 
 import db from '../config.js';
 
-export default class RecieverDetailsScreen extends Component{
+export default class ReceiverDetailsScreen extends Component{
   constructor(props){
     super(props);
     this.state={
       userId                    : firebase.auth().currentUser.email,
       userName                  : "",
-      recieverId                : this.props.navigation.getParam('details')["user_id"],
+      receiverId                : this.props.navigation.getParam('details')["user_id"],
       requestId                 : this.props.navigation.getParam('details')["request_id"],
       bookName                  : this.props.navigation.getParam('details')["book_name"],
       reason_for_requesting     : this.props.navigation.getParam('details')["reason_to_request"],
-      recieverName              : '',
-      recieverContact           : '',
-      recieverAddress           : '',
-      recieverRequestDocId      : ''
+      receiverName              : '',
+      receiverContact           : '',
+      receiverAddress           : '',
+      receiverRequestDocId      : ''
     }
   }
 
 
 
-  getRecieverDetails(){
-    console.log("Receiver ID: " + this.state.recieverId)
-    db.collection('users').where('email_id','==',this.state.recieverId).get().then(snapshot=>{
+  getReceiverDetails(){
+    console.log("receiver ID: " + this.state.receiverId)
+    db.collection('users').where('email_id','==',this.state.receiverId).get().then(snapshot=>{
       snapshot.forEach(doc=>{
         this.setState({
-          recieverName    : doc.data().first_name,
-          recieverContact : doc.data().contact,
-          recieverAddress : doc.data().address,
+          receiverName    : doc.data().first_name,
+          receiverContact : doc.data().contact,
+          receiverAddress : doc.data().address,
         })
-        console.log("Reciever: "+ this.state.recieverName)
+        console.log("receiver: "+ this.state.receiverName)
       })
     });
 
@@ -42,7 +42,7 @@ export default class RecieverDetailsScreen extends Component{
     db.collection('requested_books').where('request_id','==',this.state.requestId).get()
     .then(snapshot=>{
       snapshot.forEach(doc => {
-        this.setState({recieverRequestDocId:doc.id})
+        this.setState({receiverRequestDocId:doc.id})
      })
   })}
 
@@ -66,7 +66,7 @@ export default class RecieverDetailsScreen extends Component{
     db.collection('all_donations').add({
       "book_name"           : this.state.bookName,
       "request_id"          : this.state.requestId,
-      "requested_by"        : this.state.recieverName,
+      "requested_by"        : this.state.receiverName,
       "donor_id"            : this.state.userId,
       "request_status"      :  "Donor Interested"
     })
@@ -76,7 +76,7 @@ export default class RecieverDetailsScreen extends Component{
   addNotification=()=>{
     var message = this.state.userName + " has shown interest in donating the book"
     db.collection("all_notifications").add({
-      "targeted_user_id"    : this.state.recieverId,
+      "targeted_user_id"    : this.state.receiverId,
       "donor_id"            : this.state.userId,
       "request_id"          : this.state.requestId,
       "book_name"           : this.state.bookName,
@@ -89,9 +89,9 @@ export default class RecieverDetailsScreen extends Component{
 
 
   componentDidMount(){
-    this.getRecieverDetails()
+    this.getReceiverDetails()
 
-    console.log("reciever details "+this.getRecieverDetails())
+    console.log("receiver details "+this.getReceiverDetails())
     console.log(this.state.userId);
     this.getUserDetails(this.state.userId)
   }
@@ -122,22 +122,22 @@ export default class RecieverDetailsScreen extends Component{
           </View>
           <View style={{flex:0.3}}>
             <Card>
-              <Card.Title style= {{fontSize : 20}}> {"Receiver Information"}</Card.Title>
+              <Card.Title style= {{fontSize : 20}}> {"receiver Information"}</Card.Title>
               
               <Card>
-                <Text style={{fontWeight:'bold'}}>Name: {this.state.recieverName}</Text>
+                <Text style={{fontWeight:'bold'}}>Name: {this.state.receiverName}</Text>
               </Card>
               <Card>
-                <Text style={{fontWeight:'bold'}}>Contact: {this.state.recieverContact}</Text>
+                <Text style={{fontWeight:'bold'}}>Contact: {this.state.receiverContact}</Text>
               </Card>
               <Card>
-                <Text style={{fontWeight:'bold'}}>Address: {this.state.recieverAddress}</Text>
+                <Text style={{fontWeight:'bold'}}>Address: {this.state.receiverAddress}</Text>
               </Card>
             </Card>
           </View>
           <View style={styles.buttonContainer}>
             {
-              this.state.recieverId !== this.state.userId
+              this.state.receiverId !== this.state.userId
               ?(
                 <TouchableOpacity
                     style={styles.button}
